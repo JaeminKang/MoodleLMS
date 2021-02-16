@@ -1,9 +1,14 @@
-FROM jakubboucek/lamp-devstack-php:7.3
+FROM jakubboucek/lamp-devstack-php:7.4
 
+RUN rm /etc/apt/preferences.d/no-debian-php
 RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y wget \
-            -y mariadb-server
+            -y mariadb-server \
+            -y php-intl \
+            -y php-soap \
+            -y php-zip \
+            -y php-xmlrpc \ 
 
 # setup phpmyadmin
 ADD . /var/www/html/phpmyadmin
@@ -15,6 +20,7 @@ ADD ./srcs/config.inc.php /var/www/html/phpmyadmin/config.inc.php
 RUN mkdir /var/www/html/moodle
 RUN wget https://download.moodle.org/download.php/direct/stable310/moodle-latest-310.tgz
 RUN tar -xvzf moodle-latest-310.tgz --strip-components 1 -C /var/www/html/moodle
+RUN chmoda-R 0770 /var/www/html/moodle
 RUN mkdir /var/moodledata
 RUN chmod -R 0770 /var/moodledata
 RUN chown -R www-data:www-data /var/moodledata
