@@ -1,4 +1,4 @@
-docker_image_name="t1"
+docker_image_name="kangjm2/moodle"
 docker_container_name="w1"
 
 docker stop ${docker_container_name}
